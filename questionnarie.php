@@ -64,8 +64,11 @@
 		
 		<?php
 		
+			echo "HELLO";
+		
 			try{
 			
+				echo "hello";
 				$details = displayData();
 				echo $details;
 			

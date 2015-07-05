@@ -78,7 +78,7 @@ require_once('config/database.php');
 					
 					echo "Based on your answers to this questionnaire, it appears that you have had or are having issues with stress or social relationships.<br>";
 					++$count;
-					getPercentages($_POST["age"], 3);
+					
 					
 				}
 				
@@ -86,7 +86,6 @@ require_once('config/database.php');
 					
 					echo "Your asthmatic condition combined to being a smoker could create a potential risk of <a href ='http://www.aihw.gov.au/copd/'>Chronic Obstructive Pulmonary Disease. </a><br>";
 					++$count;
-					getPercentages($_POST["age"], 51);
 					
 				}
 				
@@ -104,7 +103,7 @@ require_once('config/database.php');
 					
 					echo "Either your condition or your behavioral habits put you at risk for circulatory dieases. Circulatory diseases represent the first cause of death in Australia. If you want more to get more information about circulatory diseases, you should visit the <a href=http://www.heartfoundation.org.au/>Heart Foundation website. </a> <br>";
 					++$count;
-					getPercentages($_POST["age"], 50);
+				
 					
 				}
 				
@@ -112,15 +111,15 @@ require_once('config/database.php');
 					
 					echo "Smoking increases significantly your risks of Lung Cancer. Studies show that 80% to 90% of lung cancers can be linked to smoking. You can find more information about lung cancer on the <a href =http://lungfoundation.com.au/> Lung Foundation. </a> <br>";
 					++$count;
-					getPercentages($_POST["age"], 53);
+				
 					
 				}
 				
 				if($_POST["breastcancer"] == 'false' && $_POST["age"] > 25) {
 					
-					echo "You have risk of breast cancer<br>";
+					echo "You have risk of breast cancer. We advise you to check with your doctor if you are at risk or not.<br>";
 					++$count;
-					getPercentages($_POST["age"], 92);
+					
 					
 				}
 				
@@ -128,22 +127,16 @@ require_once('config/database.php');
 				$_POST["alcohol"] == 'true' || $_POST["overweight"] == 'true' || $_POST["chronicdiseases"] == 'true' || $_POST["cerebro"] == 'true')
 				&& $_POST["age"] > 25) {
 					
-					echo "You have risk of cerebrovascular disease<br>";
+					echo "You have risk of cerebrovascular disease. This risk is influenced by cigarette, alcohol, unhealthy food, sedentarity or chronic disease.<br>";
 					++$count;
 					
 				}
 				
-				if($_POST["smoke"] == 'true' && $_POST["age"] > 25) {
-					
-					echo "You have risk of COPD<br>";
-					++$count;
-					
-				}
 				
 				if(($_POST["exercise"] == 'false' || $_POST["sociallife"] == 'false' || $_POST["healthydiet"] == 'false'
 				|| $_POST["sleepingissues"] == 'true') && $_POST["age"] > 50) {
 					
-					echo "You have risk of dementia & alzheimer<br>";
+					echo "You have risk to develop mental diseases such as dementia and alzheimer in the future. These diseases mainly concern the elderly population, but the factors that lead to it can be a lack of exercise, a bad alimentation or too few social interactions.<br>";
 					++$count;
 					
 				}
@@ -151,7 +144,7 @@ require_once('config/database.php');
 				//Recommendations
 				if($_POST["exercise"] == 'false') {
 					
-					echo "You need to exercise more.<br>";
+					echo "The recommendation is to exercise for 30 minutes 3 times a week. If you don't have time or motivation to do exercise, you can improve your health with easy habits such as taking the stairs instead of the elevator or walk instead of taking car for short distances.<br>";
 					++$count;
 					
 				}
@@ -166,21 +159,21 @@ require_once('config/database.php');
 				
 				if($_POST["healthydiet"] == 'false') {
 					
-					echo "Make sure to eat 3 meals a day.<br>";
+					echo "Make sure to eat 5 fruit and vegetable per day. If you want to get information on how to stick to this guideline in easy and cheap ways, check out this <a href='http://www.gofor2and5.com.au/'> website </a><br>";
 					++$count;
 					
 				}
 				
 				if($_POST["smoke"] == 'true') {
 					
-					echo "Smoking is not a healthy habit. Try to smoke less everyday, if you smoke 20 cigarettes a day then try to reduce that to 19 the next week and so on.<br>";
+					echo "Smoking is a very unhealthy habit. If you're trying to stop, this <a href='http://www.alcohol.gov.au/'>website </a> may help you. <br>";
 					++$count;
 					
 				}
 
 				if($_POST["alcohol"] == 'true') {
 					
-					echo "You should control the amount of alchohol you take.<br>";
+					echo "You should control the amount of alchohol you take. If you find out that it is complicated to live without alcohol or that you want to have information about it, go to this <a 'href=http://www.alcohol.gov.au/'> website. </a><br>";
 					++$count;
 					
 				}
@@ -192,12 +185,6 @@ require_once('config/database.php');
 					
 				}
 				
-				if($_POST["depression"] == 'true') {
-					
-					echo "Try to see a psychologist if you find your days get really tough.<br>";
-					++$count;
-					
-				}
 				
 				//check if the user is healthy
 				if($count == 0) {

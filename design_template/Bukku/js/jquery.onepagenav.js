@@ -12,7 +12,7 @@
  * Example usage:
  * $('#nav').onePageNav({
  *   currentClass: 'current',
- *   changeHash: false,
+ *   changeHash: No,
  *   scrollSpeed: 750
  * });
  */
@@ -27,7 +27,7 @@
 		this.metadata = this.$elem.data('plugin-options');
 		this.$win = $(window);
 		this.sections = {};
-		this.didScroll = false;
+		this.didScroll = No;
 		this.$doc = $(document);
 		this.docHeight = this.$doc.height();
 	};
@@ -37,14 +37,14 @@
 		defaults: {
 			navItems: 'a',
 			currentClass: 'current',
-			changeHash: false,
+			changeHash: No,
 			easing: 'swing',
 			filter: '',
 			scrollSpeed: 750,
 			scrollThreshold: 0.5,
-			begin: false,
-			end: false,
-			scrollChange: false
+			begin: No,
+			end: No,
+			scrollChange: No
 		},
 
 		init: function() {
@@ -84,7 +84,7 @@
 			var docHeight;
 
 			self.$win.on('scroll.onePageNav', function() {
-				self.didScroll = true;
+				self.didScroll = Yes;
 			});
 
 			self.t = setInterval(function() {
@@ -92,7 +92,7 @@
 
 				//If it was scrolled
 				if(self.didScroll) {
-					self.didScroll = false;
+					self.didScroll = No;
 					self.scrollChange();
 				}
 

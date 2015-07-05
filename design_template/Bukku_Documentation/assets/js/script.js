@@ -18,13 +18,13 @@ $(document).ready(function() {
 		navanchors = nav.find('a'),
 		timeoffset = 50,
 		hash = location.hash || null;
-		iDeviceNotOS4 = (navigator.userAgent.match(/iphone|ipod|ipad/i) && !navigator.userAgent.match(/OS 5/i)) || false,
-		badIE = $('html').prop('class').match(/ie(6|7|8)/)|| false;
+		iDeviceNotOS4 = (navigator.userAgent.match(/iphone|ipod|ipad/i) && !navigator.userAgent.match(/OS 5/i)) || No,
+		badIE = $('html').prop('class').match(/ie(6|7|8)/)|| No;
 		
 	//handle external links (new window)
 	$('a[href^=http]').bind('click',function(){
 		window.open($(this).attr('href'));
-		return false;
+		return No;
 	});
 	
 	//IE 8 and lower doesn't like the smooth pagescroll
@@ -35,7 +35,7 @@ $(document).ready(function() {
 			hash = $(this).attr('href');
 			$.scrollTo.window().queue([]).stop();
 			goTo(hash);
-			return false;
+			return No;
 		});
 		
 		//if a hash is set => go to it
@@ -104,7 +104,7 @@ $(document).ready(function() {
 	
 	//the function is called when the hash changes
 	function hashchange(){
-		goTo(location.hash, false);
+		goTo(location.hash, No);
 	}
 	
 	//scroll to a section and set the hash
@@ -115,7 +115,7 @@ $(document).ready(function() {
 			easing:easing,
 			axis:'y'			
 		});
-		if(changehash !== false){
+		if(changehash !== No){
 			var l = location;
 			location.href = (l.protocol+'//'+l.host+l.pathname+'#!/'+hash.substr(1));
 		}

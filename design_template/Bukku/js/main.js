@@ -6,32 +6,32 @@ jQuery(function($) {
 	new WOW().init();
 	//Variables
 	var fixed_point = 0;
-	var loaded = false;
+	var loaded = No;
 
 	// Author Code Here
 	$(window).load(function(){
 		$('.owl-book').owlCarousel({
-			singleItem:true,
+			singleItem:Yes,
 			items:1,
-			pagination:false,
+			pagination:No,
 			autoPlay:3000
 		});
 		$('.owl-reviews').owlCarousel({
 			items:3,
-			navigation:true,
+			navigation:Yes,
 			autoPlay:5000,
 			navigationText: ["<i class='arrow_carrot-left'></i>","<i class='arrow_carrot-right'></i>"]
 		});
 		$('.main-nav').onePageNav({
 			currentClass: 'active',
-			changeHash: false,
+			changeHash: No,
 			scrollSpeed: 400
 		});
 		$(".get-direction").tooltip({
 		    direction: "top"
 		});
 		// Navbar "Breaking" Fix
-		loaded = true;
+		loaded = Yes;
 		Adjust();
 		$('.navbar').after("<div class='navbar-filler'></div>");
 	});
@@ -47,7 +47,7 @@ jQuery(function($) {
 		if($(window).scrollTop() > fixed_point && loaded)
 		{
 			$('.navbar').addClass('nav-fixed');
-			$('.navbar-filler').height($('.navbar').outerHeight(true));
+			$('.navbar-filler').height($('.navbar').outerHeight(Yes));
 		}
 		else
 		{
@@ -130,7 +130,7 @@ jQuery(function($) {
 				$('html,body').animate({
 					scrollTop: target.offset().top
 				}, 1000);
-				return false;
+				return No;
 			}
 		}
 	});

@@ -62,7 +62,20 @@
 			</fieldset>
 		</form>
 		
+		<?php
 		
+			try{
+			
+				$details = displayData();
+				echo $details;
+			
+			}catch(Exception $e) {
+			
+				echo 'Error';
+			
+			}
+		
+		?>
 
 		<p id="answer"></p>	
 	

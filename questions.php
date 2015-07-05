@@ -23,65 +23,86 @@ require_once('config/database.php');
 		<link id="main" rel="stylesheet" type="text/css" href="design_template/Bukku/css/publisher.css">
 	</head>
 	<body>
-		<h1>Questionnaire</h1>
+		<section class="call-to-action">
+			<div class="col-md-8 col-md-offset-2 text-center wow animated fadeInUp">
+				<h1 class="heading white top-fit center">Questionnaire</h1>
+			</div>
+		</section>
 		
 		<?php
 
 			try{
 			
 				$count = 0;
-				$car = 'false';
-				$suicide = 'false';
-				$respiratory = 'false';
-				$circ = 'false';
-				$lung = 'false';
-				$breastcanc = 'false';
-				$cere = 'false';
-				$copd = 'false';
-				$demen = 'false';
-				//echo "hello";
-				//$details = displayData();
-				//echo '<tr><td>', $details['a0to4'], '</td></tr>';	
 				/*
-				if($_POST["age"] < 25) {
+				echo "BMI Calculator: ";
+				$height = $_POST["height"];
+				$weight = $_POST["weight"];
+				$bmi = 0;
+				$bmi = $mass / ($height * $height);
+				echo $bmi;
+				if($bmi > 0 && $bmi < 18.5) {
 					
-					echo "Less than 25";
+					echo "Underweight<br>";
 					
-				}else if($_POST["age"] >= 25 && $_POST["age"] < 50) {
+				}else if($bmi < 22.9) {
 					
-					echo "greater than 25";
+					echo "Normal<br>";
+					
+				}else if($bmi < 24.9) {
+					
+					echo "Overweight - Low Risk<br>";
+					
+				}else if($bmi < 29.9) {
+					
+					echo "Overweight - Moderate Risk<br>";
+					
+				}else if($bmi >= 30) {
+					
+					echo "Overweight - High Risk<br>";
 					
 				}
-*/
+				*/
+			
 				//Risks
 				if($_POST["drinkdrive"] == 'true') {
 					
 					$car = 'true';
-					echo "You have risk of car accident<br>";
+					echo "Your recent behavior indicates that you may get into a car accident if you keep driving while under the influence of alcohol.<br>";
 					++$count;
 					
 				}
 				
-				if(($_POST["stress"] == 'true' || $_POST["sociallife"] == 'false' || $_POST["depression"] == 'true') && $_POST["age"] < 50) {
+				if(( ($_POST["stress"] == 'true' && $_POST["sociallife"] == 'false') || ($_POST["stress"] = 'true' && $_POST["depression"] == 'true') ||
+				($_POST["sociallife"] == 'false' && $_POST["depression"] == 'true')) && $_POST["age"] < 50) {
 					
-					echo "You have risk of depression<br>";
+					echo "Based on your answers to this questionnaire, it appears that you have had or are having issues with stress or social relationships.<br>";
 					++$count;
 					getPercentages($_POST["age"], 3);
 					
 				}
 				
-				if($_POST["smoke"] == 'true' || $_POST["asthma"] == 'true') {
+				if(($_POST["smoke"] == 'true' && $_POST["asthma"] == 'true')&& $_POST["age"] > 25) {
 					
-					echo "You have risk of respiratory problems<br>";
+					echo "Your asthmatic condition combined to being a smoker could create a potential risk of <a href ='http://www.aihw.gov.au/copd/'>Chronic Obstructive Pulmonary Disease. </a><br>";
 					++$count;
 					getPercentages($_POST["age"], 51);
 					
 				}
 				
+				else if($_POST["smoke"] == 'true' && $_POST["asthma"] == 'false') {
+					echo "Your smoking habits create a potential risk of <a href ='http://www.aihw.gov.au/copd/'>Chronic Obstructive Pulmonary Disease. </a><br>";
+					
+				}
+				
+				else if($_POST["smoke"] == 'false' && $_POST["asthma"] == 'true') {
+					echo "Your asthmatic condition could create a potential risk of <a href ='http://www.aihw.gov.au/copd/'>Chronic Obstructive Pulmonary Disease. </a><br>";
+				}
+				
 				if($_POST["diabetes"] == 'true' || $_POST["exercise"] == 'false' || $_POST["healthydiet"] == 'false' || $_POST["smoke"] == 'true' || 
 				$_POST["alcohol"] == 'true' || $_POST["overweight"] == 'true' || $_POST["chronicdiseases"] == 'true') {
 					
-					echo "You have risk of circulatory disease<br>";
+					echo "Either your condition or your behavioral habits put you at risk for circulatory dieases. Circulatory diseases represent the first cause of death in Australia. If you want more to get more information about circulatory diseases, you should visit the <a href=http://www.heartfoundation.org.au/>Heart Foundation website. </a> <br>";
 					++$count;
 					getPercentages($_POST["age"], 50);
 					
@@ -89,7 +110,7 @@ require_once('config/database.php');
 				
 				if($_POST["smoke"] == 'true') {
 					
-					echo "You have risk of lung cancer<br>";
+					echo "Smoking increases significantly your risks of Lung Cancer. Studies show that 80% to 90% of lung cancers can be linked to smoking. You can find more information about lung cancer on the <a href =http://lungfoundation.com.au/> Lung Foundation. </a> <br>";
 					++$count;
 					getPercentages($_POST["age"], 53);
 					
@@ -135,16 +156,10 @@ require_once('config/database.php');
 					
 				}
 				
-				if($_POST["stress"] == 'true') {
+				if( ($_POST["stress"] == 'true' && $_POST["sociallife"] == 'false') || ($_POST["stress"] = 'true' && $_POST["depression"] == 'true') ||
+				($_POST["sociallife"] == 'false' && $_POST["depression"] == 'true') == 'true') {
 					
-					echo "You should research about emotional intelligence, how to control your emotions. There are breathing techniques.<br>";
-					++$count;
-					
-				}
-				
-				if($_POST["sociallife"] == 'false') {
-					
-					echo "It is a good idea to attend more events to meet new people who share your interests. Try to talk to 2 new people you've never met everyday.<br>";
+					echo "If you want to talk to someone about any social relationships issues, you can find interesting numbers to dial on this <a href='http://www.safetyandquality.gov.au/wp-content/uploads/2012/05/Suicide_Prevention_Crisis_Contacts.pdf'>Safety Prevention Crisis Contact page</a><br>";
 					++$count;
 					
 				}
@@ -170,16 +185,9 @@ require_once('config/database.php');
 					
 				}
 				
-				if($_POST["overweight"] == 'true') {
-					
-					echo "<br>";
-					++$count;
-					
-				}
-				
 				if($_POST["drinkdrive"] == 'true') {
 					
-					echo "Don't drink and drive.<br>";
+					echo "Drinking and driving is one of the major causes of death in car accident. Please keep you and your fellow citizens safe. If you want to know more about how to avoid this situation in the future, you can consult <a href=http://www.whatsyourplanb.net.au/>this webpage</a>.<br>";
 					++$count;
 					
 				}
@@ -194,7 +202,7 @@ require_once('config/database.php');
 				//check if the user is healthy
 				if($count == 0) {
 					
-					echo "You are perfectly healthy<br>";
+					echo "<h2 class='heading wow animated fadeInUp'>You are perfectly healthy<br></h2>";
 					$count = 0;
 					
 				}

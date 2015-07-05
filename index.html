@@ -1,6 +1,16 @@
+<?php
+
+require_once('config/database.php');
+
+?>
 <!DOCTYPE html>
+
 <html>
+
 	<head>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		<title>Questionnaire</title>
 		<link rel="stylesheet" type="text/css" href="design_template/Bukku/css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="design_template/Bukku/css/bootstrap.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +23,126 @@
 		<link id="main" rel="stylesheet" type="text/css" href="design_template/Bukku/css/publisher.css">
 	</head>
 	<body>
-		<h1>Home Page</h1>
+
+		<script language="javascript" type="text/javascript">
+			function myFunction() {
+				
+				//document.getElementById("questions").submit();
+				var curAge = document.getElementById('age1').value; 
+				console.log(curAge);
+				//document.getElementById("answer").innerHTML = "hello";
+				//window.alert(curAge);
+				//document.getElementById("answer").innerHTML = curAge; 
+				window.alert(curAge);
+				
+			}
+		</script>
+		
+		<h1>Questionnaire</h1>
+		<form id="questions" action="questions.php" method="post" onSubmit="">
+			<fieldset>
+				<ol id="">
+				    <li>
+				        Do you have Diabetes?
+				        <br>Yes <input type="radio" name="diabetes" value="true">
+				        <br>No <input type="radio" name="diabetes" value="false">
+				    </li>
+                    <li>
+				        Do you exercise on a regular basis (three times a week)?
+				        <br>Yes <input type="radio" name="exercise" value="true">
+				        <br>No <input type="radio" name="exercise" value="false">
+				    </li>
+				    <li>
+				        Are you subject to stress on a regular basis?
+				        <br>Yes <input type="radio" name="stress" value="true">
+				        <br>No <input type="radio" name="stress" value="false">
+				    </li>
+				    <li>
+				        Do you have any close friend that you can rely on?
+				        <br>Yes <input type="radio" name="sociallife" value="true">
+				        <br>No <input type="radio" name="sociallife" value="false">
+				    </li>
+					<li>
+					    Do you eat at least 5 fruit and vegetables per day?
+					     <br>Yes <input type="radio" name="healthydiet" value="true">
+					     <br>No <input type="radio" name="healthydiet" value="false">
+					</li>
+					<li>
+					    Do you smoke on a daily basis?
+					     <br>Yes <input type="radio" name="smoke" value="true">
+					     <br>No <input type="radio" name="smoke" value="false">
+					</li>
+					<li>
+					    Do you have asthma?
+					     <br>Yes <input type="radio" name="asthma" value="true">
+					     <br>No <input type="radio" name="asthma" value="false">
+					</li>
+					<li>
+					     Do you drink more than ten alcholic drinks per week?
+					     <br>Yes <input type="radio" name="alcohol" value="true">
+					     <br>No <input type="radio" name="alcohol" value="false">
+					</li>
+					<li>
+					    Do you use any illicit drugs?
+					     <br>Yes <input type="radio" name="illicitdrugs" value="true">
+					     <br>No <input type="radio" name="illicitdrugs" value="false">
+					</li>
+					<li>
+					    Are you overweight (BMI>25)?
+					     <br>Yes <input type="radio" name="overweight" value="true">
+					     <br>No <input type="radio" name="overweight" value="false">
+					</li>
+					<li>
+					    In the last six months, have you driven while drunk?
+					     <br>Yes <input type="radio" name="drinkdrive" value="true">
+					     <br>No <input type="radio" name="drinkdrive" value="false">
+					</li>
+					<li>
+					    Have you been in a situation of extreme sadness / depression in the past year?
+					     <br>Yes <input type="radio" name="depression" value="true">
+					     <br>No <input type="radio" name="depression" value="false">
+					</li>
+					<li>
+					    Have you been checked for breast cancer?
+					     <br>Yes <input type="radio" name="breastcancer" value="true">
+					     <br>No <input type="radio" name="breastcancer" value="false">
+					</li>
+					<li>
+					    Do you have sleeping issues?
+					     <br>Yes <input type="radio" name="sleepingissues" value="true">
+					     <br>No <input type="radio" name="sleepingissues" value="false">
+					</li>
+					<li>
+					    Do you have any chronic diseases?
+					     <br>Yes <input type="radio" name="chronicdiseases" value="true">
+					     <br>No <input type="radio" name="chronicdiseases" value="false">
+					</li>
+					<li>
+					    Do you have any family history of Cerebrovascular diseases?
+					     <br>Yes <input type="radio" name="cerebro" value="true">
+					     <br>No <input type="radio" name="cerebro" value="false">
+					</li>
+					<li>
+						Age :
+						<input type="number" name="age" min="1" id="age1">
+					</li>
+					<li>
+					    Gender:
+					    <br>Male <input type="radio" name="gender" value="M">
+					    <br>Female <input type="radio" name="gender" value="F">
+					</li>
+					
+					<li>
+						<input type="submit" onclick="" value="Submit">
+						<input type="reset" onclick="myFunction()" value="Reset">
+						<button onclick="myFunction()">Get Result</button>	
+					</li>
+				</ol>
+			</fieldset>
+		</form>
+
+		<p id="answer"></p>	
+	
 	</body>
+
 </html>

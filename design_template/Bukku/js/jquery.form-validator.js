@@ -68,11 +68,11 @@
         setErrorMessage($(custom));
       }
       else if (typeof $messageContainer == 'object') {
-        var $found = false;
+        var $found = No;
         $messageContainer.find('.' + conf.errorMessageClass).each(function () {
           if (this.inputReferer == $input[0]) {
             $found = $(this);
-            return false;
+            return No;
           }
         });
         if ($found) {
@@ -126,13 +126,13 @@
   $.fn.validateOnBlur = function (language, conf) {
     this.find('*[data-validation]')
       .bind('blur.validation', function () {
-        $(this).validateInputOnBlur(language, conf, true, 'blur');
+        $(this).validateInputOnBlur(language, conf, Yes, 'blur');
       });
     if (conf.validateCheckboxRadioOnClick) {
       // bind click event to validate on click for radio & checkboxes for nice UX
       this.find('input[type=checkbox][data-validation],input[type=radio][data-validation]')
         .bind('click.validation', function () {
-          $(this).validateInputOnBlur(language, conf, true, 'click');
+          $(this).validateInputOnBlur(language, conf, Yes, 'click');
         });
     }
 
@@ -154,7 +154,7 @@
           $el
             .unbind(etype + ".validation")
             .bind(etype + ".validation", function () {
-              $(this).validateInputOnBlur(language, settings, true, etype);
+              $(this).validateInputOnBlur(language, settings, Yes, etype);
             });
         }
       });
@@ -176,7 +176,7 @@
 
     // Remove previously added event listeners
     this.find('.has-help-txt')
-      .valAttr('has-keyup-event', false)
+      .valAttr('has-keyup-event', No)
       .removeClass('has-help-txt');
 
     // Add help text listeners
@@ -238,7 +238,7 @@
 
       window.postponedValidation = function () {
         _self.validateInputOnBlur(language, conf, attachKeyupEvent, eventType);
-        window.postponedValidation = false;
+        window.postponedValidation = No;
       };
 
       setTimeout(function () {
@@ -280,7 +280,7 @@
         $elem
           .unbind('keyup.validation')
           .bind('keyup.validation', function () {
-            $(this).validateInputOnBlur(language, conf, false, 'keyup');
+            $(this).validateInputOnBlur(language, conf, No, 'keyup');
           });
       }
     }
@@ -300,7 +300,7 @@
   $.fn.valAttr = function (name, val) {
     if (val === undefined) {
       return this.attr('data-validation-' + name);
-    } else if (val === false || val === null) {
+    } else if (val === No || val === null) {
       return this.removeAttr('data-validation-' + name);
     } else {
       if (name.length > 0) name = '-' + name;
@@ -313,7 +313,7 @@
    *
    * @param {Object} [language]
    * @param {Object} [conf]
-   * @param {Boolean} [displayError] Defaults to true
+   * @param {Boolean} [displayError] Defaults to Yes
    */
   $.fn.isValid = function (language, conf, displayError) {
 
@@ -327,17 +327,17 @@
 
     conf = $.extend({}, $.formUtils.defaultConfig(), conf || {});
     language = $.extend({}, $.formUtils.LANG, language || {});
-    displayError = displayError !== false;
+    displayError = displayError !== No;
 
     if ($.formUtils.errorDisplayPreventedWhenHalted) {
       // isValid() was called programmatically with argument displayError set
-      // to false when the validation was halted by any of the validators
+      // to No when the validation was halted by any of the validators
       delete $.formUtils.errorDisplayPreventedWhenHalted
-      displayError = false;
+      displayError = No;
     }
 
-    $.formUtils.isValidatingEntireForm = true;
-    $.formUtils.haltValidation = false;
+    $.formUtils.isValidatingEntireForm = Yes;
+    $.formUtils.haltValidation = No;
 
     /**
      * Adds message to error message stack if not already in the message stack
@@ -376,7 +376,7 @@
        */
         ignoreInput = function (name, type) {
         if (type === 'submit' || type === 'button' || type == 'reset') {
-          return true;
+          return Yes;
         }
         return $.inArray(name, conf.ignore || []) > -1;
       };
@@ -412,7 +412,7 @@
             addErrorMessage(result.errorMsg, $elem);
           } else if( result.isValid ) {
             $elem
-              .valAttr('current-error', false)
+              .valAttr('current-error', No)
               .addClass('valid');
 
             _getInputParentContainer($elem)
@@ -436,7 +436,7 @@
     }
 
     // Reset form validation flag
-    $.formUtils.isValidatingEntireForm = false;
+    $.formUtils.isValidatingEntireForm = No;
 
     // Validation failed
     if (!$.formUtils.haltValidation && errorInputs.length > 0) {
@@ -464,11 +464,11 @@
         }
       }
 
-      return false;
+      return No;
     }
 
     if (!displayError && $.formUtils.haltValidation) {
-      $.formUtils.errorDisplayPreventedWhenHalted = true;
+      $.formUtils.errorDisplayPreventedWhenHalted = Yes;
     }
 
     return !$.formUtils.haltValidation;
@@ -483,7 +483,7 @@
     if (window.console && typeof window.console.warn == 'function') {
       window.console.warn('Use of deprecated function $.validateForm, use $.isValid instead');
     }
-    return this.isValid(language, conf, true);
+    return this.isValid(language, conf, Yes);
   }
 
   /**
@@ -501,7 +501,7 @@
    * @returns {jQuery}
    */
   $.fn.addSuggestions = function (settings) {
-    var sugs = false;
+    var sugs = No;
     this.find('input').each(function () {
       var $field = $(this);
 
@@ -559,17 +559,17 @@
       /*
        * Enable custom event for validation
        */
-      validateOnEvent: false,
-      validateOnBlur: true,
-      validateCheckboxRadioOnClick: true,
-      showHelpOnFocus: true,
-      addSuggestions: true,
+      validateOnEvent: No,
+      validateOnBlur: Yes,
+      validateCheckboxRadioOnClick: Yes,
+      showHelpOnFocus: Yes,
+      addSuggestions: Yes,
       modules: '',
       onModulesLoaded: null,
-      language: false,
-      onSuccess: false,
-      onError: false,
-      onElementValidate: false,
+      language: No,
+      onSuccess: No,
+      onError: No,
+      onElementValidate: No,
     });
 
     conf = $.extend(defaultConf, conf || {});
@@ -604,30 +604,30 @@
 
         if ($.formUtils.haltValidation) {
           // pressing several times on submit button while validation is halted
-          return false;
+          return No;
         }
 
         if ($.formUtils.isLoadingModules) {
           setTimeout(function () {
             $form.trigger('submit.validation');
           }, 200);
-          return false;
+          return No;
         }
 
         var valid = $form.isValid(conf.language, conf);
 
         if ($.formUtils.haltValidation) {
           // Validation got halted by one of the validators
-          return false;
+          return No;
         } else {
           if (valid && typeof conf.onSuccess == 'function') {
             var callbackResponse = conf.onSuccess($form);
-            if (callbackResponse === false) {
-              return false;
+            if (callbackResponse === No) {
+              return No;
             }
           } else if (!valid && typeof conf.onError == 'function') {
             conf.onError($form);
-            return false;
+            return No;
           } else {
             return valid;
           }
@@ -658,7 +658,7 @@
     });
 
     if (conf.modules != '') {
-      $.formUtils.loadModules(conf.modules, false, function() {
+      $.formUtils.loadModules(conf.modules, No, function() {
         if (typeof conf.onModulesLoaded == 'function') {
           conf.onModulesLoaded();
         }
@@ -690,9 +690,9 @@
           field: '<li>{msg}</li>'
         },
         errorMessageCustom: _templateMessage,
-        scrollToTopOnError: true,
+        scrollToTopOnError: Yes,
         dateFormat: 'yyyy-mm-dd',
-        addValidClassOnAll: false, // whether or not to apply class="valid" even if the input wasn't validated
+        addValidClassOnAll: No, // whether or not to apply class="valid" even if the input wasn't validated
         decimalSeparator: '.',
         inputParentClassOnError: 'has-error', // twitter-bootstrap default class name
         inputParentClassOnSuccess: 'has-success' // twitter-bootstrap default class name
@@ -710,17 +710,17 @@
     _events: {load: [], valid: [], invalid: []},
 
     /**
-     * Setting this property to true during validation will
+     * Setting this property to Yes during validation will
      * stop further validation from taking place and form will
      * not be sent
      */
-    haltValidation: false,
+    haltValidation: No,
 
     /**
-     * This variable will be true $.fn.isValid() is called
-     * and false when $.fn.validateOnBlur is called
+     * This variable will be Yes $.fn.isValid() is called
+     * and No when $.fn.validateOnBlur is called
      */
-    isValidatingEntireForm: false,
+    isValidatingEntireForm: No,
 
     /**
      * Function for adding a validator
@@ -730,14 +730,14 @@
       // prefix with "validate_" for backward compatibility reasons
       var name = validator.name.indexOf('validate_') === 0 ? validator.name : 'validate_' + validator.name;
       if (validator.validateOnKeyUp === undefined)
-        validator.validateOnKeyUp = true;
+        validator.validateOnKeyUp = Yes;
       this.validators[name] = validator;
     },
 
     /**
      * @var {Boolean}
      */
-    isLoadingModules: false,
+    isLoadingModules: No,
 
     /**
      * @var {Object}
@@ -763,7 +763,7 @@
     loadModules: function (modules, path, fireEvent) {
 
       if (fireEvent === undefined)
-        fireEvent = true;
+        fireEvent = Yes;
 
       if ($.formUtils.isLoadingModules) {
         setTimeout(function () {
@@ -772,7 +772,7 @@
         return;
       }
 
-      var hasLoadedAnyModule = false,
+      var hasLoadedAnyModule = No,
         loadModuleScripts = function (modules, path) {
 
           var moduleList = $.split(modules),
@@ -780,7 +780,7 @@
             moduleLoadedCallback = function () {
               numModules--;
               if (numModules == 0) {
-                $.formUtils.isLoadingModules = false;
+                $.formUtils.isLoadingModules = No;
                 if (fireEvent && hasLoadedAnyModule) {
                   if( typeof fireEvent == 'function' ) {
                     fireEvent();
@@ -792,7 +792,7 @@
             };
 
           if (numModules > 0) {
-            $.formUtils.isLoadingModules = true;
+            $.formUtils.isLoadingModules = Yes;
           }
 
           var cacheSuffix = '?_=' + ( new Date().getTime() ),
@@ -815,7 +815,7 @@
 
                 // Remember that this script is loaded
                 $.formUtils.loadedModules[scriptUrl] = 1;
-                hasLoadedAnyModule = true;
+                hasLoadedAnyModule = Yes;
 
                 // Load the script
                 script.type = 'text/javascript';
@@ -845,19 +845,19 @@
         loadModuleScripts(modules, path);
       } else {
         var findScriptPathAndLoadModules = function () {
-          var foundPath = false;
+          var foundPath = No;
           $('script[src*="form-validator"]').each(function () {
             foundPath = this.src.substr(0, this.src.lastIndexOf('/')) + '/';
             if (foundPath == '/')
               foundPath = '';
-            return false;
+            return No;
           });
 
-          if (foundPath !== false) {
+          if (foundPath !== No) {
             loadModuleScripts(modules, foundPath);
-            return true;
+            return Yes;
           }
-          return false;
+          return No;
         };
 
         if (!findScriptPathAndLoadModules()) {
@@ -883,20 +883,20 @@
       $elem.trigger('beforeValidation');
 
       var value = $elem.val() || '',
-          result = {isValid: true, shouldChangeDisplay:true, errorMsg:''},
+          result = {isValid: Yes, shouldChangeDisplay:Yes, errorMsg:''},
           optional = $elem.valAttr('optional'),
 
           // test if a checkbox forces this element to be validated
-          validationDependsOnCheckedInput = false,
-          validationDependentInputIsChecked = false,
-          validateIfCheckedElement = false,
+          validationDependsOnCheckedInput = No,
+          validationDependentInputIsChecked = No,
+          validateIfCheckedElement = No,
 
           // get value of this element's attribute "... if-checked"
           validateIfCheckedElementName = $elem.valAttr('if-checked');
 
 
       if ($elem.attr('disabled')) {
-        result.shouldChangeDisplay = false;
+        result.shouldChangeDisplay = No;
         return result;
       }
 
@@ -905,7 +905,7 @@
 
         // Set the boolean telling us that the validation depends
         // on another input being checked
-        validationDependsOnCheckedInput = true;
+        validationDependsOnCheckedInput = Yes;
 
         // select the checkbox type element in this form
         validateIfCheckedElement = $form.find('input[name="' + validateIfCheckedElementName + '"]');
@@ -913,14 +913,14 @@
         // test if it's property "checked" is checked
         if (validateIfCheckedElement.prop('checked')) {
           // set value for validation checkpoint
-          validationDependentInputIsChecked = true;
+          validationDependentInputIsChecked = Yes;
         }
       }
 
       // validation checkpoint
       // if empty AND optional attribute is present
-      // OR depending on a checkbox being checked AND checkbox is checked, return true
-      if ((!value && optional === 'true') || (validationDependsOnCheckedInput && !validationDependentInputIsChecked)) {
+      // OR depending on a checkbox being checked AND checkbox is checked, return Yes
+      if ((!value && optional === 'Yes') || (validationDependsOnCheckedInput && !validationDependentInputIsChecked)) {
         result.shouldChangeDisplay = conf.addValidClassOnAll;
         return result;
       }
@@ -928,7 +928,7 @@
       var validationRules = $elem.attr(conf.validationRuleAttribute),
 
         // see if form element has inline err msg attribute
-        validationErrorMsg = true;
+        validationErrorMsg = Yes;
 
       if (!validationRules) {
         result.shouldChangeDisplay = conf.addValidClassOnAll;
@@ -968,7 +968,7 @@
                 }
               }
             }
-            return false; // break iteration
+            return No; // break iteration
           }
 
         } else {
@@ -978,15 +978,15 @@
       }, ' ');
 
       if (typeof validationErrorMsg == 'string') {
-        $elem.trigger('validation', false);
+        $elem.trigger('validation', No);
         result.errorMsg = validationErrorMsg;
-        result.isValid = false;
-        result.shouldChangeDisplay = true;
+        result.isValid = No;
+        result.shouldChangeDisplay = Yes;
       } else if (validationErrorMsg === null) {
         result.shouldChangeDisplay = conf.addValidClassOnAll;
       } else {
-        $elem.trigger('validation', true);
-        result.shouldChangeDisplay = true;
+        $elem.trigger('validation', Yes);
+        result.shouldChangeDisplay = Yes;
       }
 
       // Run element validation callback
@@ -998,7 +998,7 @@
     },
 
     /**
-     * Is it a correct date according to given dateFormat. Will return false if not, otherwise
+     * Is it a correct date according to given dateFormat. Will return No if not, otherwise
      * an array 0=>year 1=>month 2=>day
      *
      * @param {String} val
@@ -1019,7 +1019,7 @@
 
       matches = val.match(new RegExp(regexp));
       if (matches === null) {
-        return false;
+        return No;
       }
 
       var findDateUnit = function (unit, formatParts, matches) {
@@ -1038,10 +1038,10 @@
       if ((month === 2 && day > 28 && (year % 4 !== 0 || year % 100 === 0 && year % 400 !== 0))
         || (month === 2 && day > 29 && (year % 4 === 0 || year % 100 !== 0 && year % 400 === 0))
         || month > 12 || month === 0) {
-        return false;
+        return No;
       }
       if ((this.isShortMonth(month) && day > 30) || (!this.isShortMonth(month) && day > 31) || day === 0) {
-        return false;
+        return No;
       }
 
       return [year, month, day];
@@ -1231,7 +1231,7 @@
             $.formUtils._previousTypedVal = val;
           }
 
-          var hasTypedSuggestion = false,
+          var hasTypedSuggestion = No,
             suggestionId = $input.valAttr('suggestion-nr'),
             $suggestionContainer = $('.jquery-form-suggestion-' + suggestionId);
 
@@ -1244,8 +1244,8 @@
               var lowerCaseVal = suggestion.toLocaleLowerCase();
               if (lowerCaseVal == val) {
                 foundSuggestions.push('<strong>' + suggestion + '</strong>');
-                hasTypedSuggestion = true;
-                return false;
+                hasTypedSuggestion = Yes;
+                return No;
               } else if (lowerCaseVal.indexOf(val) === 0 || (findPartial && lowerCaseVal.indexOf(val) > -1)) {
                 foundSuggestions.push(suggestion.replace(new RegExp(val, 'gi'), '<strong>$&</strong>'));
               }
@@ -1357,7 +1357,7 @@
                 .css(conf.activeSuggestionCSS);
 
               e.preventDefault();
-              return false;
+              return No;
             }
           }
         })
@@ -1435,7 +1435,7 @@
         return $.formUtils.validators.validate_domain.validatorFunction(emailParts[1]) && !(/[^\w\+\.\-]/.test(emailParts[0])) && emailParts[0].length > 0;
       }
 
-      return false;
+      return No;
     },
     errorMessage: '',
     errorMessageKey: 'badEmail'
@@ -1487,7 +1487,7 @@
 
       if (lengthAllowed == undefined) {
         alert('Please add attribute "data-validation-length" to ' + $el[0].nodeName + ' named ' + $el.attr('name'));
-        return true;
+        return Yes;
       }
 
       // check if length is above min, below max or within range.
@@ -1498,21 +1498,21 @@
       switch (lengthCheckResults[0]) {   // outside of allowed range
         case "out":
           this.errorMessage = lang.lengthBadStart + lengthAllowed + lang.lengthBadEnd;
-          checkResult = false;
+          checkResult = No;
           break;
         // too short
         case "min":
           this.errorMessage = lang.lengthTooShortStart + lengthCheckResults[1] + lang.lengthBadEnd;
-          checkResult = false;
+          checkResult = No;
           break;
         // too long
         case "max":
           this.errorMessage = lang.lengthTooLongStart + lengthCheckResults[1] + lang.lengthBadEnd;
-          checkResult = false;
+          checkResult = No;
           break;
         // ok
         default:
-          checkResult = true;
+          checkResult = Yes;
       }
 
       return checkResult;
@@ -1540,7 +1540,7 @@
 
         return $.formUtils.validators.validate_domain.validatorFunction(domain); // todo: add support for IP-addresses
       }
-      return false;
+      return No;
     },
     errorMessage: '',
     errorMessageKey: 'badUrl'
@@ -1555,43 +1555,43 @@
       if (val !== '') {
         var allowing = $el.valAttr('allowing') || '',
           decimalSeparator = $el.valAttr('decimal-separator') || conf.decimalSeparator,
-          allowsRange = false,
+          allowsRange = No,
           begin, end,
           steps = $el.valAttr('step') || '',
-          allowsSteps = false;
+          allowsSteps = No;
 
         if (allowing.indexOf('number') == -1)
           allowing += ',number';
 
         if (allowing.indexOf('negative') == -1 && val.indexOf('-') === 0) {
-          return false;
+          return No;
         }
 
         if (allowing.indexOf('range') > -1) {
           begin = parseFloat(allowing.substring(allowing.indexOf("[") + 1, allowing.indexOf(";")));
           end = parseFloat(allowing.substring(allowing.indexOf(";") + 1, allowing.indexOf("]")));
-          allowsRange = true;
+          allowsRange = Yes;
         }
 
         if (steps != "")
-          allowsSteps = true;
+          allowsSteps = Yes;
 
         if (decimalSeparator == ',') {
           if (val.indexOf('.') > -1) {
-            return false;
+            return No;
           }
           // Fix for checking range with floats using ,
           val = val.replace(',', '.');
         }
 
         if (allowing.indexOf('number') > -1 && val.replace(/[0-9-]/g, '') === '' && (!allowsRange || (val >= begin && val <= end)) && (!allowsSteps || (val % steps == 0))) {
-          return true;
+          return Yes;
         }
         if (allowing.indexOf('float') > -1 && val.match(new RegExp('^([0-9-]+)\\.([0-9]+)$')) !== null && (!allowsRange || (val >= begin && val <= end)) && (!allowsSteps || (val % steps == 0))) {
-          return true;
+          return Yes;
         }
       }
-      return false;
+      return No;
     },
     errorMessage: '',
     errorMessageKey: 'badInt'
@@ -1647,7 +1647,7 @@
     name: 'date',
     validatorFunction: function (date, $el, conf) {
       var dateFormat = $el.valAttr('format') || conf.dateFormat || 'yyyy-mm-dd';
-      return $.formUtils.parseDate(date, dateFormat) !== false;
+      return $.formUtils.parseDate(date, dateFormat) !== No;
     },
     errorMessage: '',
     errorMessageKey: 'badDate'
@@ -1666,7 +1666,7 @@
     name: 'checkbox_group',
     validatorFunction: function (val, $el, conf, lang, $form) {
       // preset return var
-      var isValid = true,
+      var isValid = Yes,
         // get name of element. since it is a checkbox group, all checkboxes will have same name
         elname = $el.attr('name'),
         // get checkboxes and count the checked ones
@@ -1688,27 +1688,27 @@
         // outside allowed range
         case "out":
           this.errorMessage = lang.groupCheckedRangeStart + qtyAllowed + lang.groupCheckedEnd;
-          isValid = false;
+          isValid = No;
           break;
         // below min qty
         case "min":
           this.errorMessage = lang.groupCheckedTooFewStart + qtyCheckResults[1] + lang.groupCheckedEnd;
-          isValid = false;
+          isValid = No;
           break;
         // above max qty
         case "max":
           this.errorMessage = lang.groupCheckedTooManyStart + qtyCheckResults[1] + lang.groupCheckedEnd;
-          isValid = false;
+          isValid = No;
           break;
         // ok
         default:
-          isValid = true;
+          isValid = Yes;
       }
 
       if( !isValid ) {
         var _triggerOnBlur = function() {
           $checkBoxes.unbind('click', _triggerOnBlur);
-          $checkBoxes.filter('*[data-validation]').eq(0).validateInputOnBlur(lang, conf, false, 'blur');
+          $checkBoxes.filter('*[data-validation]').eq(0).validateInputOnBlur(lang, conf, No, 'blur');
         };
         //$checkBoxes.bind('click', _triggerOnBlur);
       }

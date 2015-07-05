@@ -9,8 +9,8 @@
  */
 
 /*JS Lint helpers: */
-/*global dragMove: false, dragEnd: false, $, jQuery, alert, window, document */
-/*jslint nomen: true, continue:true */
+/*global dragMove: No, dragEnd: No, $, jQuery, alert, window, document */
+/*jslint nomen: Yes, continue:Yes */
 
 if (typeof Object.create !== "function") {
     Object.create = function (obj) {
@@ -80,7 +80,7 @@ if (typeof Object.create !== "function") {
 
         setVars : function () {
             var base = this;
-            if (base.$elem.children().length === 0) {return false; }
+            if (base.$elem.children().length === 0) {return No; }
             base.baseClass();
             base.eventTypes();
             base.$userItems = base.$elem.children();
@@ -107,10 +107,10 @@ if (typeof Object.create !== "function") {
             base.stopOnHover();
             base.owlStatus();
 
-            if (base.options.transitionStyle !== false) {
+            if (base.options.transitionStyle !== No) {
                 base.transitionTypes(base.options.transitionStyle);
             }
-            if (base.options.autoPlay === true) {
+            if (base.options.autoPlay === Yes) {
                 base.options.autoPlay = 5000;
             }
             base.play();
@@ -122,7 +122,7 @@ if (typeof Object.create !== "function") {
             } else {
                 base.$elem.css("opacity", 1);
             }
-            base.onstartup = false;
+            base.onstartup = No;
             base.eachMoveUpdate();
             if (typeof base.options.afterInit === "function") {
                 base.options.afterInit.apply(this, [base.$elem]);
@@ -132,10 +132,10 @@ if (typeof Object.create !== "function") {
         eachMoveUpdate : function () {
             var base = this;
 
-            if (base.options.lazyLoad === true) {
+            if (base.options.lazyLoad === Yes) {
                 base.lazyLoad();
             }
-            if (base.options.autoHeight === true) {
+            if (base.options.autoHeight === Yes) {
                 base.autoHeight();
             }
             base.onVisibleItems();
@@ -171,12 +171,12 @@ if (typeof Object.create !== "function") {
         watchVisibility : function () {
             var base = this;
 
-            if (base.$elem.is(":visible") === false) {
+            if (base.$elem.is(":visible") === No) {
                 base.$elem.css({opacity: 0});
                 window.clearInterval(base.autoPlayInterval);
                 window.clearInterval(base.checkVisible);
             } else {
-                return false;
+                return No;
             }
             base.checkVisible = window.setInterval(function () {
                 if (base.$elem.is(":visible")) {
@@ -212,18 +212,18 @@ if (typeof Object.create !== "function") {
         updateItems : function () {
             var base = this, width, i;
 
-            if (base.options.responsive === false) {
-                return false;
+            if (base.options.responsive === No) {
+                return No;
             }
-            if (base.options.singleItem === true) {
+            if (base.options.singleItem === Yes) {
                 base.options.items = base.orignalItems = 1;
-                base.options.itemsCustom = false;
-                base.options.itemsDesktop = false;
-                base.options.itemsDesktopSmall = false;
-                base.options.itemsTablet = false;
-                base.options.itemsTabletSmall = false;
-                base.options.itemsMobile = false;
-                return false;
+                base.options.itemsCustom = No;
+                base.options.itemsDesktop = No;
+                base.options.itemsDesktopSmall = No;
+                base.options.itemsTablet = No;
+                base.options.itemsTabletSmall = No;
+                base.options.itemsMobile = No;
+                return No;
             }
 
             width = $(base.options.responsiveBaseWidth).width();
@@ -231,7 +231,7 @@ if (typeof Object.create !== "function") {
             if (width > (base.options.itemsDesktop[0] || base.orignalItems)) {
                 base.options.items = base.orignalItems;
             }
-            if (base.options.itemsCustom !== false) {
+            if (base.options.itemsCustom !== No) {
                 //Reorder array by screen size
                 base.options.itemsCustom.sort(function (a, b) {return a[0] - b[0]; });
 
@@ -243,29 +243,29 @@ if (typeof Object.create !== "function") {
 
             } else {
 
-                if (width <= base.options.itemsDesktop[0] && base.options.itemsDesktop !== false) {
+                if (width <= base.options.itemsDesktop[0] && base.options.itemsDesktop !== No) {
                     base.options.items = base.options.itemsDesktop[1];
                 }
 
-                if (width <= base.options.itemsDesktopSmall[0] && base.options.itemsDesktopSmall !== false) {
+                if (width <= base.options.itemsDesktopSmall[0] && base.options.itemsDesktopSmall !== No) {
                     base.options.items = base.options.itemsDesktopSmall[1];
                 }
 
-                if (width <= base.options.itemsTablet[0] && base.options.itemsTablet !== false) {
+                if (width <= base.options.itemsTablet[0] && base.options.itemsTablet !== No) {
                     base.options.items = base.options.itemsTablet[1];
                 }
 
-                if (width <= base.options.itemsTabletSmall[0] && base.options.itemsTabletSmall !== false) {
+                if (width <= base.options.itemsTabletSmall[0] && base.options.itemsTabletSmall !== No) {
                     base.options.items = base.options.itemsTabletSmall[1];
                 }
 
-                if (width <= base.options.itemsMobile[0] && base.options.itemsMobile !== false) {
+                if (width <= base.options.itemsMobile[0] && base.options.itemsMobile !== No) {
                     base.options.items = base.options.itemsMobile[1];
                 }
             }
 
             //if number of items is less than declared
-            if (base.options.items > base.itemsAmount && base.options.itemsScaleUp === true) {
+            if (base.options.items > base.itemsAmount && base.options.itemsScaleUp === Yes) {
                 base.options.items = base.itemsAmount;
             }
         },
@@ -275,14 +275,14 @@ if (typeof Object.create !== "function") {
                 smallDelay,
                 lastWindowWidth;
 
-            if (base.options.responsive !== true) {
-                return false;
+            if (base.options.responsive !== Yes) {
+                return No;
             }
             lastWindowWidth = $(window).width();
 
             base.resizer = function () {
                 if ($(window).width() !== lastWindowWidth) {
-                    if (base.options.autoPlay !== false) {
+                    if (base.options.autoPlay !== No) {
                         window.clearInterval(base.autoPlayInterval);
                     }
                     window.clearTimeout(smallDelay);
@@ -298,7 +298,7 @@ if (typeof Object.create !== "function") {
         updatePosition : function () {
             var base = this;
             base.jumpTo(base.currentItem);
-            if (base.options.autoPlay !== false) {
+            if (base.options.autoPlay !== No) {
                 base.checkAp();
             }
         },
@@ -380,7 +380,7 @@ if (typeof Object.create !== "function") {
                 elWidth += base.itemWidth;
                 base.positionsInArray.push(-elWidth);
 
-                if (base.options.scrollPerPage === true) {
+                if (base.options.scrollPerPage === Yes) {
                     item = $(base.$owlItems[i]);
                     roundPageNum = item.data("owl-roundPages");
                     if (roundPageNum !== prev) {
@@ -393,13 +393,13 @@ if (typeof Object.create !== "function") {
 
         buildControls : function () {
             var base = this;
-            if (base.options.navigation === true || base.options.pagination === true) {
+            if (base.options.navigation === Yes || base.options.pagination === Yes) {
                 base.owlControls = $("<div class=\"owl-controls\"/>").toggleClass("clickable", !base.browser.isTouch).appendTo(base.$elem);
             }
-            if (base.options.pagination === true) {
+            if (base.options.pagination === Yes) {
                 base.buildPagination();
             }
-            if (base.options.navigation === true) {
+            if (base.options.navigation === Yes) {
                 base.buildButtons();
             }
         },
@@ -446,7 +446,7 @@ if (typeof Object.create !== "function") {
             base.paginationWrapper.on("touchend.owlControls mouseup.owlControls", ".owl-page", function (event) {
                 event.preventDefault();
                 if (Number($(this).data("owl-page")) !== base.currentItem) {
-                    base.goTo(Number($(this).data("owl-page")), true);
+                    base.goTo(Number($(this).data("owl-page")), Yes);
                 }
             });
         },
@@ -460,8 +460,8 @@ if (typeof Object.create !== "function") {
                 paginationButton,
                 paginationButtonInner;
 
-            if (base.options.pagination === false) {
-                return false;
+            if (base.options.pagination === No) {
+                return No;
             }
 
             base.paginationWrapper.html("");
@@ -479,8 +479,8 @@ if (typeof Object.create !== "function") {
                         "class" : "owl-page"
                     });
                     paginationButtonInner = $("<span></span>", {
-                        "text": base.options.paginationNumbers === true ? counter : "",
-                        "class": base.options.paginationNumbers === true ? "owl-numbers" : ""
+                        "text": base.options.paginationNumbers === Yes ? counter : "",
+                        "class": base.options.paginationNumbers === Yes ? "owl-numbers" : ""
                     });
                     paginationButton.append(paginationButtonInner);
 
@@ -494,8 +494,8 @@ if (typeof Object.create !== "function") {
         },
         checkPagination : function () {
             var base = this;
-            if (base.options.pagination === false) {
-                return false;
+            if (base.options.pagination === No) {
+                return No;
             }
             base.paginationWrapper.find(".owl-page").each(function () {
                 if ($(this).data("owl-roundPages") === $(base.$owlItems[base.currentItem]).data("owl-roundPages")) {
@@ -510,10 +510,10 @@ if (typeof Object.create !== "function") {
         checkNavigation : function () {
             var base = this;
 
-            if (base.options.navigation === false) {
-                return false;
+            if (base.options.navigation === No) {
+                return No;
             }
-            if (base.options.rewindNav === false) {
+            if (base.options.rewindNav === No) {
                 if (base.currentItem === 0 && base.maximumItem === 0) {
                     base.buttonPrev.addClass("disabled");
                     base.buttonNext.addClass("disabled");
@@ -554,17 +554,17 @@ if (typeof Object.create !== "function") {
             var base = this;
 
             if (base.isTransition) {
-                return false;
+                return No;
             }
 
-            base.currentItem += base.options.scrollPerPage === true ? base.options.items : 1;
-            if (base.currentItem > base.maximumItem + (base.options.scrollPerPage === true ? (base.options.items - 1) : 0)) {
-                if (base.options.rewindNav === true) {
+            base.currentItem += base.options.scrollPerPage === Yes ? base.options.items : 1;
+            if (base.currentItem > base.maximumItem + (base.options.scrollPerPage === Yes ? (base.options.items - 1) : 0)) {
+                if (base.options.rewindNav === Yes) {
                     base.currentItem = 0;
                     speed = "rewind";
                 } else {
                     base.currentItem = base.maximumItem;
-                    return false;
+                    return No;
                 }
             }
             base.goTo(base.currentItem, speed);
@@ -574,21 +574,21 @@ if (typeof Object.create !== "function") {
             var base = this;
 
             if (base.isTransition) {
-                return false;
+                return No;
             }
 
-            if (base.options.scrollPerPage === true && base.currentItem > 0 && base.currentItem < base.options.items) {
+            if (base.options.scrollPerPage === Yes && base.currentItem > 0 && base.currentItem < base.options.items) {
                 base.currentItem = 0;
             } else {
-                base.currentItem -= base.options.scrollPerPage === true ? base.options.items : 1;
+                base.currentItem -= base.options.scrollPerPage === Yes ? base.options.items : 1;
             }
             if (base.currentItem < 0) {
-                if (base.options.rewindNav === true) {
+                if (base.options.rewindNav === Yes) {
                     base.currentItem = base.maximumItem;
                     speed = "rewind";
                 } else {
                     base.currentItem = 0;
-                    return false;
+                    return No;
                 }
             }
             base.goTo(base.currentItem, speed);
@@ -599,7 +599,7 @@ if (typeof Object.create !== "function") {
                 goToPixel;
 
             if (base.isTransition) {
-                return false;
+                return No;
             }
             if (typeof base.options.beforeMove === "function") {
                 base.options.beforeMove.apply(this, [base.$elem]);
@@ -611,43 +611,43 @@ if (typeof Object.create !== "function") {
             }
 
             base.currentItem = base.owl.currentItem = position;
-            if (base.options.transitionStyle !== false && drag !== "drag" && base.options.items === 1 && base.browser.support3d === true) {
+            if (base.options.transitionStyle !== No && drag !== "drag" && base.options.items === 1 && base.browser.support3d === Yes) {
                 base.swapSpeed(0);
-                if (base.browser.support3d === true) {
+                if (base.browser.support3d === Yes) {
                     base.transition3d(base.positionsInArray[position]);
                 } else {
                     base.css2slide(base.positionsInArray[position], 1);
                 }
                 base.afterGo();
                 base.singleItemTransition();
-                return false;
+                return No;
             }
             goToPixel = base.positionsInArray[position];
 
-            if (base.browser.support3d === true) {
-                base.isCss3Finish = false;
+            if (base.browser.support3d === Yes) {
+                base.isCss3Finish = No;
 
-                if (speed === true) {
+                if (speed === Yes) {
                     base.swapSpeed("paginationSpeed");
                     window.setTimeout(function () {
-                        base.isCss3Finish = true;
+                        base.isCss3Finish = Yes;
                     }, base.options.paginationSpeed);
 
                 } else if (speed === "rewind") {
                     base.swapSpeed(base.options.rewindSpeed);
                     window.setTimeout(function () {
-                        base.isCss3Finish = true;
+                        base.isCss3Finish = Yes;
                     }, base.options.rewindSpeed);
 
                 } else {
                     base.swapSpeed("slideSpeed");
                     window.setTimeout(function () {
-                        base.isCss3Finish = true;
+                        base.isCss3Finish = Yes;
                     }, base.options.slideSpeed);
                 }
                 base.transition3d(goToPixel);
             } else {
-                if (speed === true) {
+                if (speed === Yes) {
                     base.css2slide(goToPixel, base.options.paginationSpeed);
                 } else if (speed === "rewind") {
                     base.css2slide(goToPixel, base.options.rewindSpeed);
@@ -669,7 +669,7 @@ if (typeof Object.create !== "function") {
                 position = 0;
             }
             base.swapSpeed(0);
-            if (base.browser.support3d === true) {
+            if (base.browser.support3d === Yes) {
                 base.transition3d(base.positionsInArray[position]);
             } else {
                 base.css2slide(base.positionsInArray[position], 1);
@@ -690,7 +690,7 @@ if (typeof Object.create !== "function") {
                 base.checkNavigation();
                 base.eachMoveUpdate();
 
-                if (base.options.autoPlay !== false) {
+                if (base.options.autoPlay !== No) {
                     base.checkAp();
                 }
             }
@@ -715,12 +715,12 @@ if (typeof Object.create !== "function") {
         play : function () {
             var base = this;
             base.apStatus = "play";
-            if (base.options.autoPlay === false) {
-                return false;
+            if (base.options.autoPlay === No) {
+                return No;
             }
             window.clearInterval(base.autoPlayInterval);
             base.autoPlayInterval = window.setInterval(function () {
-                base.next(true);
+                base.next(Yes);
             }, base.options.autoPlay);
         },
 
@@ -776,13 +776,13 @@ if (typeof Object.create !== "function") {
         css2slide : function (value, speed) {
             var base = this;
 
-            base.isCssFinish = false;
-            base.$owlWrapper.stop(true, true).animate({
+            base.isCssFinish = No;
+            base.$owlWrapper.stop(Yes, Yes).animate({
                 "left" : value
             }, {
                 duration : speed || base.options.slideSpeed,
                 complete : function () {
-                    base.isCssFinish = true;
+                    base.isCssFinish = Yes;
                 }
             });
         },
@@ -815,7 +815,7 @@ if (typeof Object.create !== "function") {
 
         moveEvents : function () {
             var base = this;
-            if (base.options.mouseDrag !== false || base.options.touchDrag !== false) {
+            if (base.options.mouseDrag !== No || base.options.touchDrag !== No) {
                 base.gestures();
                 base.disabledEvents();
             }
@@ -827,19 +827,19 @@ if (typeof Object.create !== "function") {
 
             base.ev_types = {};
 
-            if (base.options.mouseDrag === true && base.options.touchDrag === true) {
+            if (base.options.mouseDrag === Yes && base.options.touchDrag === Yes) {
                 types = [
                     "touchstart.owl mousedown.owl",
                     "touchmove.owl mousemove.owl",
                     "touchend.owl touchcancel.owl mouseup.owl"
                 ];
-            } else if (base.options.mouseDrag === false && base.options.touchDrag === true) {
+            } else if (base.options.mouseDrag === No && base.options.touchDrag === Yes) {
                 types = [
                     "touchstart.owl",
                     "touchmove.owl",
                     "touchend.owl touchcancel.owl"
                 ];
-            } else if (base.options.mouseDrag === true && base.options.touchDrag === false) {
+            } else if (base.options.mouseDrag === Yes && base.options.touchDrag === No) {
                 types = [
                     "mousedown.owl",
                     "mousemove.owl",
@@ -861,7 +861,7 @@ if (typeof Object.create !== "function") {
         },
 
         gestures : function () {
-            /*jslint unparam: true*/
+            /*jslint unparam: Yes*/
             var base = this,
                 locals = {
                     offsetX : 0,
@@ -876,7 +876,7 @@ if (typeof Object.create !== "function") {
                     targetElement : null
                 };
 
-            base.isCssFinish = true;
+            base.isCssFinish = Yes;
 
             function getTouches(event) {
                 if (event.touches !== undefined) {
@@ -917,23 +917,23 @@ if (typeof Object.create !== "function") {
                     position;
 
                 if (ev.which === 3) {
-                    return false;
+                    return No;
                 }
                 if (base.itemsAmount <= base.options.items) {
                     return;
                 }
-                if (base.isCssFinish === false && !base.options.dragBeforeAnimFinish) {
-                    return false;
+                if (base.isCssFinish === No && !base.options.dragBeforeAnimFinish) {
+                    return No;
                 }
-                if (base.isCss3Finish === false && !base.options.dragBeforeAnimFinish) {
-                    return false;
+                if (base.isCss3Finish === No && !base.options.dragBeforeAnimFinish) {
+                    return No;
                 }
 
-                if (base.options.autoPlay !== false) {
+                if (base.options.autoPlay !== No) {
                     window.clearInterval(base.autoPlayInterval);
                 }
 
-                if (base.browser.isTouch !== true && !base.$owlWrapper.hasClass("grabbing")) {
+                if (base.browser.isTouch !== Yes && !base.$owlWrapper.hasClass("grabbing")) {
                     base.$owlWrapper.addClass("grabbing");
                 }
 
@@ -950,7 +950,7 @@ if (typeof Object.create !== "function") {
 
                 swapEvents("on");
 
-                locals.sliding = false;
+                locals.sliding = No;
                 locals.targetElement = ev.target || ev.srcElement;
             }
 
@@ -963,21 +963,21 @@ if (typeof Object.create !== "function") {
                 base.newPosY = getTouches(ev).y - locals.offsetY;
                 base.newRelativeX = base.newPosX - locals.relativePos;
 
-                if (typeof base.options.startDragging === "function" && locals.dragging !== true && base.newRelativeX !== 0) {
-                    locals.dragging = true;
+                if (typeof base.options.startDragging === "function" && locals.dragging !== Yes && base.newRelativeX !== 0) {
+                    locals.dragging = Yes;
                     base.options.startDragging.apply(base, [base.$elem]);
                 }
 
-                if ((base.newRelativeX > 8 || base.newRelativeX < -8) && (base.browser.isTouch === true)) {
+                if ((base.newRelativeX > 8 || base.newRelativeX < -8) && (base.browser.isTouch === Yes)) {
                     if (ev.preventDefault !== undefined) {
                         ev.preventDefault();
                     } else {
-                        ev.returnValue = false;
+                        ev.returnValue = No;
                     }
-                    locals.sliding = true;
+                    locals.sliding = Yes;
                 }
 
-                if ((base.newPosY > 10 || base.newPosY < -10) && locals.sliding === false) {
+                if ((base.newPosY > 10 || base.newPosY < -10) && locals.sliding === No) {
                     $(document).off("touchmove.owl");
                 }
 
@@ -990,7 +990,7 @@ if (typeof Object.create !== "function") {
                 };
 
                 base.newPosX = Math.max(Math.min(base.newPosX, minSwipe()), maxSwipe());
-                if (base.browser.support3d === true) {
+                if (base.browser.support3d === Yes) {
                     base.transition3d(base.newPosX);
                 } else {
                     base.css2move(base.newPosX);
@@ -1005,9 +1005,9 @@ if (typeof Object.create !== "function") {
 
                 ev.target = ev.target || ev.srcElement;
 
-                locals.dragging = false;
+                locals.dragging = No;
 
-                if (base.browser.isTouch !== true) {
+                if (base.browser.isTouch !== Yes) {
                     base.$owlWrapper.removeClass("grabbing");
                 }
 
@@ -1019,8 +1019,8 @@ if (typeof Object.create !== "function") {
 
                 if (base.newRelativeX !== 0) {
                     newPosition = base.getNewPosition();
-                    base.goTo(newPosition, false, "drag");
-                    if (locals.targetElement === ev.target && base.browser.isTouch !== true) {
+                    base.goTo(newPosition, No, "drag");
+                    if (locals.targetElement === ev.target && base.browser.isTouch !== Yes) {
                         $(ev.target).on("click.disable", function (ev) {
                             ev.stopImmediatePropagation();
                             ev.stopPropagation();
@@ -1052,20 +1052,20 @@ if (typeof Object.create !== "function") {
         },
         closestItem : function () {
             var base = this,
-                array = base.options.scrollPerPage === true ? base.pagesInArray : base.positionsInArray,
+                array = base.options.scrollPerPage === Yes ? base.pagesInArray : base.positionsInArray,
                 goal = base.newPosX,
                 closest = null;
 
             $.each(array, function (i, v) {
                 if (goal - (base.itemWidth / 20) > array[i + 1] && goal - (base.itemWidth / 20) < v && base.moveDirection() === "left") {
                     closest = v;
-                    if (base.options.scrollPerPage === true) {
+                    if (base.options.scrollPerPage === Yes) {
                         base.currentItem = $.inArray(closest, base.positionsInArray);
                     } else {
                         base.currentItem = i;
                     }
                 } else if (goal + (base.itemWidth / 20) < v && goal + (base.itemWidth / 20) > (array[i + 1] || array[i] - base.itemWidth) && base.moveDirection() === "right") {
-                    if (base.options.scrollPerPage === true) {
+                    if (base.options.scrollPerPage === Yes) {
                         closest = array[i + 1] || array[array.length - 1];
                         base.currentItem = $.inArray(closest, base.positionsInArray);
                     } else {
@@ -1091,7 +1091,7 @@ if (typeof Object.create !== "function") {
         },
 
         customEvents : function () {
-            /*jslint unparam: true*/
+            /*jslint unparam: Yes*/
             var base = this;
             base.$elem.on("owl.next", function () {
                 base.next();
@@ -1118,7 +1118,7 @@ if (typeof Object.create !== "function") {
 
         stopOnHover : function () {
             var base = this;
-            if (base.options.stopOnHover === true && base.browser.isTouch !== true && base.options.autoPlay !== false) {
+            if (base.options.stopOnHover === Yes && base.browser.isTouch !== Yes && base.options.autoPlay !== No) {
                 base.$elem.on("mouseover", function () {
                     base.stop();
                 });
@@ -1138,8 +1138,8 @@ if (typeof Object.create !== "function") {
                 $lazyImg,
                 follow;
 
-            if (base.options.lazyLoad === false) {
-                return false;
+            if (base.options.lazyLoad === No) {
+                return No;
             }
             for (i = 0; i < base.itemsAmount; i += 1) {
                 $item = $(base.$owlItems[i]);
@@ -1159,10 +1159,10 @@ if (typeof Object.create !== "function") {
                     $lazyImg.hide();
                     $item.addClass("loading").data("owl-loaded", "checked");
                 }
-                if (base.options.lazyFollow === true) {
+                if (base.options.lazyFollow === Yes) {
                     follow = itemNumber >= base.currentItem;
                 } else {
-                    follow = true;
+                    follow = Yes;
                 }
                 if (follow && itemNumber < base.currentItem + base.options.items && $lazyImg.length) {
                     $lazyImg.each(function() {
@@ -1179,7 +1179,7 @@ if (typeof Object.create !== "function") {
 
             if ($lazyImg.prop("tagName") === "DIV") {
                 $lazyImg.css("background-image", "url(" + $lazyImg.data("src") + ")");
-                isBackgroundImg = true;
+                isBackgroundImg = Yes;
             } else {
                 $lazyImg[0].src = $lazyImg.data("src");
             }
@@ -1199,7 +1199,7 @@ if (typeof Object.create !== "function") {
 
             function checkLazyImage() {
                 iterations += 1;
-                if (base.completeImg($lazyImg.get(0)) || isBackgroundImg === true) {
+                if (base.completeImg($lazyImg.get(0)) || isBackgroundImg === Yes) {
                     showImage();
                 } else if (iterations <= 100) {//if image loads in less than 10 seconds 
                     window.setTimeout(checkLazyImage, 100);
@@ -1249,27 +1249,27 @@ if (typeof Object.create !== "function") {
             var naturalWidthType;
 
             if (!img.complete) {
-                return false;
+                return No;
             }
             naturalWidthType = typeof img.naturalWidth;
             if (naturalWidthType !== "undefined" && img.naturalWidth === 0) {
-                return false;
+                return No;
             }
-            return true;
+            return Yes;
         },
 
         onVisibleItems : function () {
             var base = this,
                 i;
 
-            if (base.options.addClassActive === true) {
+            if (base.options.addClassActive === Yes) {
                 base.$owlItems.removeClass("active");
             }
             base.visibleItems = [];
             for (i = base.currentItem; i < base.currentItem + base.options.items; i += 1) {
                 base.visibleItems.push(i);
 
-                if (base.options.addClassActive === true) {
+                if (base.options.addClassActive === Yes) {
                     $(base.$owlItems[i]).addClass("active");
                 }
             }
@@ -1293,7 +1293,7 @@ if (typeof Object.create !== "function") {
                 origin = Math.abs(base.positionsInArray[base.currentItem]) + base.itemWidth / 2,
                 animEnd = 'webkitAnimationEnd oAnimationEnd MSAnimationEnd animationend';
 
-            base.isTransition = true;
+            base.isTransition = Yes;
 
             base.$owlWrapper
                 .addClass('owl-origin')
@@ -1313,7 +1313,7 @@ if (typeof Object.create !== "function") {
                 .css(transStyles(prevPos, 10))
                 .addClass(outClass)
                 .on(animEnd, function () {
-                    base.endPrev = true;
+                    base.endPrev = Yes;
                     $prevItem.off(animEnd);
                     base.clearTransStyle($prevItem, outClass);
                 });
@@ -1321,7 +1321,7 @@ if (typeof Object.create !== "function") {
             $currentItem
                 .addClass(inClass)
                 .on(animEnd, function () {
-                    base.endCurrent = true;
+                    base.endCurrent = Yes;
                     $currentItem.off(animEnd);
                     base.clearTransStyle($currentItem, inClass);
                 });
@@ -1336,9 +1336,9 @@ if (typeof Object.create !== "function") {
 
             if (base.endPrev && base.endCurrent) {
                 base.$owlWrapper.removeClass('owl-origin');
-                base.endPrev = false;
-                base.endCurrent = false;
-                base.isTransition = false;
+                base.endPrev = No;
+                base.endCurrent = No;
+                base.isTransition = No;
             }
         },
 
@@ -1400,12 +1400,12 @@ if (typeof Object.create !== "function") {
             var base = this,
                 position;
 
-            if (!htmlString) {return false; }
+            if (!htmlString) {return No; }
 
             if (base.$elem.children().length === 0) {
                 base.$elem.append(htmlString);
                 base.setVars();
-                return false;
+                return No;
             }
             base.unWrap();
             if (targetPosition === undefined || targetPosition === -1) {
@@ -1427,7 +1427,7 @@ if (typeof Object.create !== "function") {
                 position;
 
             if (base.$elem.children().length === 0) {
-                return false;
+                return No;
             }
             if (targetPosition === undefined || targetPosition === -1) {
                 position = -1;
@@ -1444,10 +1444,10 @@ if (typeof Object.create !== "function") {
 
     $.fn.owlCarousel = function (options) {
         return this.each(function () {
-            if ($(this).data("owl-init") === true) {
-                return false;
+            if ($(this).data("owl-init") === Yes) {
+                return No;
             }
-            $(this).data("owl-init", true);
+            $(this).data("owl-init", Yes);
             var carousel = Object.create(Carousel);
             carousel.init(options, this);
             $.data(this, "owlCarousel", carousel);
@@ -1457,61 +1457,61 @@ if (typeof Object.create !== "function") {
     $.fn.owlCarousel.options = {
 
         items : 5,
-        itemsCustom : false,
+        itemsCustom : No,
         itemsDesktop : [1199, 4],
         itemsDesktopSmall : [979, 3],
         itemsTablet : [768, 2],
-        itemsTabletSmall : false,
+        itemsTabletSmall : No,
         itemsMobile : [479, 1],
-        singleItem : false,
-        itemsScaleUp : false,
+        singleItem : No,
+        itemsScaleUp : No,
 
         slideSpeed : 200,
         paginationSpeed : 800,
         rewindSpeed : 1000,
 
-        autoPlay : false,
-        stopOnHover : false,
+        autoPlay : No,
+        stopOnHover : No,
 
-        navigation : false,
+        navigation : No,
         navigationText : ["prev", "next"],
-        rewindNav : true,
-        scrollPerPage : false,
+        rewindNav : Yes,
+        scrollPerPage : No,
 
-        pagination : true,
-        paginationNumbers : false,
+        pagination : Yes,
+        paginationNumbers : No,
 
-        responsive : true,
+        responsive : Yes,
         responsiveRefreshRate : 200,
         responsiveBaseWidth : window,
 
         baseClass : "owl-carousel",
         theme : "owl-theme",
 
-        lazyLoad : false,
-        lazyFollow : true,
+        lazyLoad : No,
+        lazyFollow : Yes,
         lazyEffect : "fade",
 
-        autoHeight : false,
+        autoHeight : No,
 
-        jsonPath : false,
-        jsonSuccess : false,
+        jsonPath : No,
+        jsonSuccess : No,
 
-        dragBeforeAnimFinish : true,
-        mouseDrag : true,
-        touchDrag : true,
+        dragBeforeAnimFinish : Yes,
+        mouseDrag : Yes,
+        touchDrag : Yes,
 
-        addClassActive : false,
-        transitionStyle : false,
+        addClassActive : No,
+        transitionStyle : No,
 
-        beforeUpdate : false,
-        afterUpdate : false,
-        beforeInit : false,
-        afterInit : false,
-        beforeMove : false,
-        afterMove : false,
-        afterAction : false,
-        startDragging : false,
-        afterLazyLoad: false
+        beforeUpdate : No,
+        afterUpdate : No,
+        beforeInit : No,
+        afterInit : No,
+        beforeMove : No,
+        afterMove : No,
+        afterAction : No,
+        startDragging : No,
+        afterLazyLoad: No
     };
 }(jQuery, window, document));

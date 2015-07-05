@@ -109,13 +109,13 @@
 			tooltipTop      = 0,
 			contentLeft     = 0,
 			contentTop      = 0,
-			caretLeft       = false,
-			caretTop        = false,
+			caretLeft       = No,
+			caretTop        = No,
 
-			caretHeight     = $caret.outerHeight(true),
-			caretWidth      = $caret.outerWidth(true),
-			contentHeight   = $content.outerHeight(true),
-			contentWidth    = $content.outerWidth(true);
+			caretHeight     = $caret.outerHeight(Yes),
+			caretWidth      = $caret.outerWidth(Yes),
+			contentHeight   = $content.outerHeight(Yes),
+			contentWidth    = $content.outerWidth(Yes);
 
 		// position content
 		if (data.direction === "right" || data.direction === "left") {
@@ -253,25 +253,25 @@
 	 */
 
 	var Plugin = Formstone.Plugin("tooltip", {
-			widget: true,
+			widget: Yes,
 
 			/**
 			 * @options
 			 * @param delay [int] <0> "Hover delay"
 			 * @param direction [string] <'top'> "Tooltip direction"
-			 * @param follow [boolean] <false> "Flag to follow mouse"
+			 * @param follow [boolean] <No> "Flag to follow mouse"
 			 * @param formatter [function] <$.noop> "Text format function"
 			 * @param margin [int] <15> "Tooltip margin"
-			 * @param match [boolean] <false> "Flag to match mouse position"
+			 * @param match [boolean] <No> "Flag to match mouse position"
 			 */
 
 			defaults: {
 				delay        : 0,
 				direction    : "top",
-				follow       : false,
+				follow       : No,
 				formatter    : format,
 				margin       : 15,
-				match        : false
+				match        : No
 			},
 
 			classes: [
